@@ -14,18 +14,28 @@ print(x_train.shape, '   ', y_train.shape)
 print(x_test.shape, '    ', y_test.shape)
 
 model = keras.Sequential([
-    layers.Dense(64, activation='relu', input_shape=(784,)),
-    layers.Dense(64, activation='relu'),
-    layers.Dense(64, activation='relu'),
+    layers.Dense(64, activation='relu', kernel_initializer='he_normal', input_shape=(784,)),
+    layers.Dropout(0.2),
+    layers.Dense(64, activation='relu', kernel_initializer='he_normal'),
+    layers.Dropout(0.2),
+    layers.Dense(64, activation='relu', kernel_initializer='he_normal'),
+    layers.Dropout(0.2),
     layers.Dense(10, activation='softmax')
-
 ])
-model.compile(optimizer=keras.optimizers.Adam(), loss=keras.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
+model.compile(optimizer=keras.optimizers.SGD(), loss=keras.losses.SparseCategoricalCrossentropy(), metrics=['accuracy'])
 model.summary()
 
 history = model.fit(x_train, y_train, batch_size=256, epochs=100, validation_split=0.3, verbose=0)
 
+#画图展示
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.legend(['training', 'validation'], loc='upper left')
+plt.show()
+
+
 result = model.evaluate(x_test, y_test)
+
 
 
 

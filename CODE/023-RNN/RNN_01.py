@@ -29,6 +29,18 @@ def lstm_model():
                   metrics=['accuracy']
                   )
     return model
-model = lstm_model()
+
+def gru_model():
+    model = keras.Sequential([
+        layers.Embedding(input_dim=30000, output_dim=32, input_length=max_len),
+        layers.GRU(32,return_sequences=True),
+        layers.GRU(1, activation='sigmoid', return_sequences=False)
+    ])
+    model.compile(optimizer=keras.optimizers.Adam(),
+                  loss=keras.losses.BinaryCrossentropy(),
+                  metrics=['accuracy']
+                  )
+    return model
+model = gru_model()
 model.summary()
 

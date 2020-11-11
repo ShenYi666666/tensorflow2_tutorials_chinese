@@ -85,3 +85,17 @@ model.compile(optimizer=keras.optimizers.Adam(0.01), loss=keras.losses.categoric
 
 model.fit(train_x, train_y, batch_size=16, epochs=10)
 
+callbacks = [
+    tf.keras.callbacks.EarlyStopping(patience=2, monitor='val_loss'),
+    tf.keras.callbacks.TensorBoard(log_dir='./logs')
+]
+
+#多GPU上运行
+
+
+
+
+
+
+
+
